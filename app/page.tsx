@@ -1,65 +1,88 @@
-import Image from "next/image";
+import { Header } from "@/src/components/layout/Header";
+import { Button } from "@/src/components/ui/button";
+import Link from "next/link";
+import { Search, Users, Zap, Code2 } from "lucide-react";
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+export default function HomePage() {
+    return (
+        <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+            <Header />
+
+            {/* Hero Section */}
+            <section className="container mx-auto px-4 py-20 text-align">
+                <div className="max-w-3xl mx-auto">
+                    <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        Manage Your Code Snippets Like a Pro
+                    </h1>
+                    <p className="text-xl text-gray-600 mb-8">
+                        Save, organize, and share your code snippets with
+                        powerful search and team collaboration.
+                    </p>
+                    <div className="flex gap-4 justify-center">
+                        <Link href="/signup">
+                            <Button size="lg" className="text-lg">
+                                Get Started Free
+                            </Button>
+                        </Link>
+                        <Link href="/dashboard">
+                            <Button
+                                size="lg"
+                                variant="outline"
+                                className="text-lg"
+                            >
+                                View Demo
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* Features Section */}
+            <section className="container mx-auto px-4 py-20">
+                <h2 className="text-3xl font-bold text-center mb-12">
+                    Why SnippetHub?
+                </h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <FeatureCard
+                        icon={<Search className="w-8 h-8 text-blue-600" />}
+                        title="Fast Search"
+                        description="Find your snippets instantly with powerful full-text search"
+                    />
+                    <FeatureCard
+                        icon={<Code2 className="w-8 h-8 text-purple-600" />}
+                        title="50+ Languages"
+                        description="Support for all major programming languages with syntax highlighting"
+                    />
+                    <FeatureCard
+                        icon={<Users className="w-8 h-8 text-green-600" />}
+                        title="Team Collaboration"
+                        description="Share snippets with your team and collaborate in workspaces"
+                    />
+                    <FeatureCard
+                        icon={<Zap className="w-8 h-8 text-orange-600" />}
+                        title="Productivity Boost"
+                        description="Access your snippets via browser, CLI, or IDE extensions"
+                    />
+                </div>
+            </section>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+    );
+}
+
+function FeatureCard({
+    icon,
+    title,
+    description,
+}: {
+    icon: React.ReactNode;
+    title: string;
+    description: string;
+}) {
+    return (
+        <div className="p-6 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div className="mb-4">{icon}</div>
+            <h3 className="text-xl font-semibold mb-2">{title}</h3>
+            <p className="text-gray-600">{description}</p>
         </div>
-      </main>
-    </div>
-  );
+    );
 }
