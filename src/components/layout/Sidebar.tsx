@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Code2, Folder, Home, Settings, Star, Tag, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navigation = [
     { name: "All snippets", href: "/dashboard", icon: Home },
@@ -17,14 +18,14 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 bg-white border-r min-h-screen p-4">
+        <aside className="w-64 bg-white dark:bg-gray-900 border-r dark:border-gray-800 min-h-screen p-4">
             {/* 로고 영역 */}
             <div className="mb-8">
                 <Link
                     href="/dashboard"
-                    className="flex items-center gap-2 font-bold text-lg"
+                    className="flex items-center gap-2 font-bold text-lg dark:text-white"
                 >
-                    <Code2 className="w-6 h-6 text-blue-600" />
+                    <Code2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     <span>SnippetHub</span>
                 </Link>
             </div>
@@ -47,8 +48,8 @@ export function Sidebar() {
                             className={cn(
                                 "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                                 isActive
-                                    ? "bg-blue-50 text-blue-600"
-                                    : "text-gray-700 hover:bg-gray-100"
+                                    ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                                    : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                             )}
                         >
                             <item.icon className="w-5 h-5" />
@@ -59,10 +60,16 @@ export function Sidebar() {
             </nav>
 
             {/* 하단 설정 */}
-            <div className="absolute bottom-4 left-4 right-4">
+            <div className="absolute bottom-4 left-4 right-4 space-y-1">
+                <div className="flex items-center justify-between px-3 py-2">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Theme
+                    </span>
+                    <ThemeToggle />
+                </div>
                 <Link
                     href="/settings"
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
                 >
                     <Settings className="w-5 h-5" />
                     <span>Settings</span>
