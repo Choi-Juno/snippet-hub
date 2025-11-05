@@ -10,6 +10,7 @@ import { StatsCard } from "@/src/components/dashboard/StatsCard";
 import { Search, Star, ArrowUpDown, Code2, Heart, Layers } from "lucide-react";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
+import Link from "next/link";
 import {
     Select,
     SelectContent,
@@ -18,6 +19,7 @@ import {
     SelectValue,
 } from "@/src/components/ui/select";
 import { SUPPORTED_LANGUAGES } from "@/src/components/editor/LanguageSelector";
+import { toast } from "sonner";
 
 type SortOption = "newest" | "oldest" | "title-asc" | "title-desc" | "language";
 
@@ -118,7 +120,7 @@ export default function DashboardPage() {
     // 코드 복사 기능
     const handleCopy = async (code: string) => {
         await navigator.clipboard.writeText(code);
-        alert("Code copied to clipboard!");
+        toast.success("Code copied to clipboard!");
     };
 
     // 마크다운 형식으로 복사
@@ -129,7 +131,7 @@ export default function DashboardPage() {
     ) => {
         const markdown = `# ${title}\n\n\`\`\`${language}\n${code}\n\`\`\``;
         await navigator.clipboard.writeText(markdown);
-        alert("Code copied as Markdown!");
+        toast.success("Code copied as Markdown!");
     };
 
     // 스니펫 삭제
@@ -140,7 +142,7 @@ export default function DashboardPage() {
 
         if (error) {
             console.error("Error deleting snippet:", error);
-            alert("Failed to delete snippet");
+            toast.error("Failed to delete snippet");
         } else {
             setSnippets(snippets.filter((s) => s.id !== id));
         }
@@ -160,7 +162,7 @@ export default function DashboardPage() {
 
         if (error) {
             console.error("Error toggling favorite:", error);
-            alert("Failed to update favorite");
+            toast.error("Failed to update favorite");
         } else {
             setSnippets(
                 snippets.map((s) =>
@@ -376,9 +378,9 @@ export default function DashboardPage() {
                         languageFilter === "all" &&
                         !showFavoritesOnly && (
                             <Button asChild>
-                                <a href="/dashboard/snippets/new">
+                                <Link href="/dashboard/snippets/new">
                                     Create Snippet
-                                </a>
+                                </Link>
                             </Button>
                         )}
                 </div>

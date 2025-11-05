@@ -13,6 +13,12 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import {
+    vscDarkPlus,
+    vs,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useTheme } from "next-themes";
 
 interface SnippetCardProps {
     snippet: SnippetWithTags;
@@ -29,16 +35,19 @@ export function SnippetCard({
     onDelete,
     onToggleFavorite,
 }: SnippetCardProps) {
+    const { theme } = useTheme();
     // 언어별 색상 매핑
     const languageColors: Record<string, string> = {
-        javascript: "bg-yellow-100 text-yellow-800",
-        typescript: "bg-blue-100 text-blue-800",
-        python: "bg-green-100 text-green-800",
-        go: "bg-cyan-100 text-cyan-800",
-        rust: "bg-orange-100 text-orange-800",
-        java: "bg-red-100 text-red-800",
-        csharp: "bg-purple-100 text-purple-800",
-        php: "bg-pink-100 text-pink-800",
+        javascript:
+            "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+        typescript:
+            "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+        python: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+        java: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
+        cpp: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400",
+        go: "bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-400",
+        rust: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
+        ruby: "bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-400",
     };
 
     const languageColor =
@@ -50,6 +59,11 @@ export function SnippetCard({
         addSuffix: true,
         locale: ko,
     });
+
+    // 코드 미리보기 (첫 5줄)
+    const previewCode = snippet.code.split("\n").slice(0, 5).join("\n");
+    const totalLines = snippet.code.split("\n").length;
+    const hasMoreLines = totalLines > 5;
 
     return (
         <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow relative">
@@ -173,9 +187,28 @@ export function SnippetCard({
 
                 {/* 코드 미리보기 */}
                 <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 mb-3 font-mono text-sm overflow-x-auto">
-                    <code className="text-gray-800 dark:text-gray-300 line-clamp-3">
-                        {snippet.code}
-                    </code>
+                    <SyntaxHighlighter
+                        language={snippet.language}
+                        code={snippet.code}
+                        style={theme === "dark" ? vscDarkPlus : vs}
+                        customStyle={{
+                            margin: 0,
+                            padding: "12px",
+                            fontSize: "13px",
+                            lineHeight: "1.6",
+                            maxHeight: "150px",
+                            overflow: "hidden",
+                            background:
+                                theme === "dark" ? "#1e1e1e" : "#f8f8f8",
+                        }}
+                    >
+                        {previewCode}
+                    </SyntaxHighlighter>
+                    {hasMoreLines && (
+                        <div className="bg-gray-100 dark:bg-gray-800 px-3 py-1.5 text-xs text-gray-600 dark:text-gray-400 text-center border-t border-gray-200 dark:border-gray-700">
+                            + {totalLines - 5} more lines
+                        </div>
+                    )}
                 </div>
 
                 {/* 푸터 */}

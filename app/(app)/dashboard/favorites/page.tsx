@@ -17,6 +17,7 @@ import {
     SelectValue,
 } from "@/src/components/ui/select";
 import { SUPPORTED_LANGUAGES } from "@/src/components/editor/LanguageSelector";
+import { toast } from "sonner";
 
 export default function FavoritesPage() {
     const user = useAuthStore((state) => state.user);
@@ -88,7 +89,7 @@ export default function FavoritesPage() {
     // 코드 복사 기능
     const handleCopy = async (code: string) => {
         await navigator.clipboard.writeText(code);
-        alert("Code copied to clipboard!");
+        toast.success("Code copied to clipboard!");
     };
 
     // 스니펫 삭제
@@ -99,9 +100,10 @@ export default function FavoritesPage() {
 
         if (error) {
             console.error("Error deleting snippet:", error);
-            alert("Failed to delete snippet");
+            toast.error("Failed to delete snippet");
         } else {
             setSnippets(snippets.filter((s) => s.id !== id));
+            toast.success("Snippet deleted successfully!");
         }
     };
 
@@ -119,7 +121,7 @@ export default function FavoritesPage() {
 
         if (error) {
             console.error("Error toggling favorite:", error);
-            alert("Failed to update favorite");
+            toast.error("Failed to update favorite");
         } else {
             // 즐겨찾기에서 제거되면 목록에서 삭제
             if (!newFavoriteState) {
@@ -133,6 +135,7 @@ export default function FavoritesPage() {
                     )
                 );
             }
+            toast.success("Favorite updated successfully!");
         }
     };
 

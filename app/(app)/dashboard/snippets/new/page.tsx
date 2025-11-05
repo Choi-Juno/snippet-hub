@@ -14,6 +14,7 @@ import { Label } from "@/src/components/ui/label";
 import { Textarea } from "@/src/components/ui/textarea";
 import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function NewSnippetPage() {
     const router = useRouter();
@@ -178,9 +179,8 @@ export default function NewSnippetPage() {
                 throw new Error("Invalid snippet ID format");
             }
 
-            console.log("✅ Redirecting to:", redirectUrl);
+            toast.success("Snippet created successfully!");
             router.push(redirectUrl);
-            console.log("✅ router.push() called");
         } catch (err) {
             console.error("Error saving snippet:", err);
             const errorMessage =

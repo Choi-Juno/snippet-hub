@@ -8,6 +8,7 @@ import { SnippetCard } from "@/src/components/snippet/SnippetCard";
 import { Badge } from "@/src/components/ui/badge";
 import { Search, Tag as TagIcon } from "lucide-react";
 import { Input } from "@/src/components/ui/input";
+import { toast } from "sonner";
 
 interface TagWithCount extends Tag {
     snippet_count: number;
@@ -143,7 +144,7 @@ export default function TagsPage() {
     // 스니펫 복사
     const handleCopy = async (code: string) => {
         await navigator.clipboard.writeText(code);
-        alert("Code copied to clipboard!");
+        toast.success("Code copied to clipboard!");
     };
 
     // 스니펫 삭제
@@ -154,9 +155,10 @@ export default function TagsPage() {
 
         if (error) {
             console.error("Error deleting snippet:", error);
-            alert("Failed to delete snippet");
+            toast.error("Failed to delete snippet");
         } else {
             setSnippets(snippets.filter((s) => s.id !== id));
+            toast.success("Snippet deleted successfully!");
             // 태그 목록 다시 로드 (스니펫 수 업데이트)
             window.location.reload();
         }
@@ -176,13 +178,14 @@ export default function TagsPage() {
 
         if (error) {
             console.error("Error toggling favorite:", error);
-            alert("Failed to update favorite");
+            toast.error("Failed to update favorite");
         } else {
             setSnippets(
                 snippets.map((s) =>
                     s.id === id ? { ...s, is_favorite: newFavoriteState } : s
                 )
             );
+            toast.success("Favorite updated successfully!");
         }
     };
 

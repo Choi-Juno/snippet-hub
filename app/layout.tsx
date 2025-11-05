@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/src/components/providers/AuthProvider";
 import { ThemeProvider } from "@/src/components/providers/ThemeProvider";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,10 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <AuthProvider>{children}</AuthProvider>
+                    <AuthProvider>
+                        {children}
+                        <Toaster position="top-right" richColors closeButton />
+                    </AuthProvider>
                 </ThemeProvider>
             </body>
         </html>

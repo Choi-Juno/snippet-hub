@@ -16,6 +16,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/src/components/ui/card";
+import { toast } from "sonner";
 
 export default function SignUpPage() {
     const router = useRouter();
@@ -39,7 +40,7 @@ export default function SignUpPage() {
             setLoading(false);
         } else {
             // 회원가입 성공 시 이메일 확인 메시지 표시
-            alert("Please check your email to confirm your account!");
+            toast.success("Please check your email to confirm your account!");
             router.push("/login");
         }
     };

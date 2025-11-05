@@ -14,6 +14,7 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { Textarea } from "@/src/components/ui/textarea";
 import { ArrowLeft, Save } from "lucide-react";
+import { toast } from "sonner";
 
 export default function EditSnippetPage() {
     const router = useRouter();
@@ -45,7 +46,7 @@ export default function EditSnippetPage() {
                 snippetId === "null"
             ) {
                 console.error("Missing or invalid snippetId:", snippetId);
-                alert("잘못된 스니펫 ID입니다.");
+                toast.error("잘못된 스니펫 ID입니다.");
                 router.push("/dashboard");
                 return;
             }
@@ -55,7 +56,7 @@ export default function EditSnippetPage() {
                 /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
             if (!uuidRegex.test(snippetId)) {
                 console.error("Invalid UUID format:", snippetId);
-                alert(`잘못된 스니펫 ID 형식입니다.\nID: ${snippetId}`);
+                toast.error(`잘못된 스니펫 ID 형식입니다.\nID: ${snippetId}`);
                 router.push("/dashboard");
                 return;
             }
@@ -71,7 +72,7 @@ export default function EditSnippetPage() {
 
             if (snippetError) {
                 console.error("Error fetching snippet:", snippetError);
-                alert(
+                toast.error(
                     `스니펫을 불러올 수 없습니다: ${snippetError.message}\n\n본인이 생성한 스니펫만 편집할 수 있습니다.`
                 );
                 router.push("/dashboard");
@@ -191,10 +192,12 @@ export default function EditSnippetPage() {
             }
 
             // 성공하면 상세 페이지로 이동
+            toast.success("Snippet updated successfully!");
             router.push(`/dashboard/snippets/${snippetId}`);
         } catch (err) {
             console.error("Error updating snippet:", err);
             setError("Failed to update snippet. Please try again.");
+            toast.error("Failed to update snippet");
             setSaving(false);
         }
     };

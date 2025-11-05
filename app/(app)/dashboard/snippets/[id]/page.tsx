@@ -19,6 +19,7 @@ import {
     Code2,
     Star,
 } from "lucide-react";
+import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 
@@ -34,12 +35,6 @@ export default function SnippetDetailPage() {
     // 스니펫 불러오기 (태그 포함)
     useEffect(() => {
         const fetchSnippet = async () => {
-            console.log("=== Snippet Detail Page ===");
-            console.log("Raw params:", params);
-            console.log("Params ID:", snippetId);
-            console.log("Params ID type:", typeof snippetId);
-            console.log("Params ID length:", snippetId?.length);
-
             // snippetId가 없거나 잘못된 경우
             if (
                 !snippetId ||
@@ -47,7 +42,7 @@ export default function SnippetDetailPage() {
                 snippetId === "null"
             ) {
                 console.error("Missing or invalid snippetId:", snippetId);
-                alert("잘못된 스니펫 ID입니다. (ID가 없음)");
+                toast.error("잘못된 스니펫 ID입니다. (ID가 없음)");
                 router.push("/dashboard");
                 return;
             }
@@ -58,9 +53,7 @@ export default function SnippetDetailPage() {
             if (!uuidRegex.test(snippetId)) {
                 console.error("Invalid UUID format:", snippetId);
                 console.error("UUID regex test failed");
-                alert(
-                    `잘못된 스니펫 ID 형식입니다.\nID: ${snippetId}\n\n올바른 UUID 형식이 아닙니다.`
-                );
+                toast.error("잘못된 스니펫 ID 형식입니다.");
                 router.push("/dashboard");
                 return;
             }
@@ -85,12 +78,12 @@ export default function SnippetDetailPage() {
                     snippetError.code === "PGRST116" ||
                     snippetError.message.includes("Row level security")
                 ) {
-                    alert(
+                    toast.error(
                         "이 스니펫에 접근할 권한이 없습니다. 본인이 생성한 스니펫만 볼 수 있습니다."
                     );
                 } else {
-                    alert(
-                        `스니펫을 불러올 수 없습니다: ${snippetError.message}\n\n해결 방법:\n1. FIX_USER_ID.sql 파일을 Supabase에서 실행\n2. 새로운 스니펫을 생성`
+                    toast.error(
+                        `스니펫을 불러올 수 없습니다: ${snippetError.message}`
                     );
                 }
                 router.push("/dashboard");
@@ -99,9 +92,7 @@ export default function SnippetDetailPage() {
 
             if (!snippetData) {
                 console.error("No snippet found with ID:", snippetId);
-                alert(
-                    "스니펫을 찾을 수 없습니다. user_id가 설정되지 않은 스니펫일 수 있습니다."
-                );
+                toast.error("스니펫을 찾을 수 없습니다.");
                 router.push("/dashboard");
                 return;
             }
@@ -144,6 +135,7 @@ export default function SnippetDetailPage() {
         if (!snippet) return;
 
         await navigator.clipboard.writeText(snippet.code);
+        toast.success("Code copied to clipboard!");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
@@ -160,12 +152,17 @@ export default function SnippetDetailPage() {
             .eq("id", snippet.id);
 
         if (error) {
-            alert("Failed to update favorite");
+            toast.error("Failed to update favorite");
         } else {
             setSnippet({
                 ...snippet,
                 is_favorite: newFavoriteState,
             });
+            toast.success(
+                newFavoriteState
+                    ? "Added to favorites!"
+                    : "Removed from favorites"
+            );
         }
     };
 
@@ -180,8 +177,9 @@ export default function SnippetDetailPage() {
             .eq("id", snippet.id);
 
         if (error) {
-            alert("Failed to delete snippet");
+            toast.error("Failed to delete snippet");
         } else {
+            toast.success("Snippet deleted successfully!");
             router.push("/dashboard");
         }
     };
