@@ -12,13 +12,14 @@ const navigation = [
     { name: "Folders", href: "/dashboard/folders", icon: Folder },
     { name: "Tags", href: "/dashboard/tags", icon: Tag },
     { name: "Workspaces", href: "/dashboard/workspaces", icon: Users },
+    { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 bg-white dark:bg-gray-900 border-r dark:border-gray-800 min-h-screen p-4">
+        <aside className="w-64 bg-white dark:bg-gray-900 border-r dark:border-gray-800 min-h-screen p-4 flex flex-col">
             {/* 로고 영역 */}
             <div className="mb-8">
                 <Link
@@ -38,7 +39,7 @@ export function Sidebar() {
             </Link>
 
             {/* 네비게이션 메뉴 */}
-            <nav className="space-y-1">
+            <nav className="space-y-1 flex-1">
                 {navigation.map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -59,21 +60,14 @@ export function Sidebar() {
                 })}
             </nav>
 
-            {/* 하단 설정 */}
-            <div className="absolute bottom-4 left-4 right-4 space-y-1">
+            {/* 하단 테마 설정 */}
+            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
                 <div className="flex items-center justify-between px-3 py-2">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                         Theme
                     </span>
                     <ThemeToggle />
                 </div>
-                <Link
-                    href="/settings"
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
-                >
-                    <Settings className="w-5 h-5" />
-                    <span>Settings</span>
-                </Link>
             </div>
         </aside>
     );
