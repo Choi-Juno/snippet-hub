@@ -25,7 +25,7 @@ export function CodeEditor({
     const { theme } = useTheme();
 
     // 에디터가 마운트되면 실행
-    const handleEditorDidMount: OnMount = (editor, monaco) => {
+    const handleEditorDidMount: OnMount = (editor) => {
         editorRef.current = editor;
 
         // 에디터 옵션 설정

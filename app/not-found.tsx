@@ -1,4 +1,6 @@
 // app/not-found.tsx
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
 import { Home, Search, ArrowLeft } from "lucide-react";

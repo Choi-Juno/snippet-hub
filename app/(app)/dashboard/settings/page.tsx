@@ -1,6 +1,8 @@
 // app/(app)/dashboard/settings/page.tsx
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/src/stores/authStore";
 import { supabase } from "@/src/supabase/client";
@@ -124,10 +126,18 @@ export default function SettingsPage() {
                         )
                         .eq("snippet_id", snippet.id);
 
+                    interface TagItem {
+                        tags: {
+                            id: string;
+                            name: string;
+                            created_at: string;
+                        }[];
+                    }
+                    
                     const tags =
                         tagData
-                            ?.map((item: any) => item.tags)
-                            .filter((tag): tag is any => tag !== null) || [];
+                            ?.flatMap((item: TagItem) => item.tags)
+                            .filter((tag) => tag !== null) || [];
 
                     return {
                         ...snippet,

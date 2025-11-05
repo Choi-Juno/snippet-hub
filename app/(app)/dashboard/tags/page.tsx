@@ -1,6 +1,8 @@
 // app/(app)/dashboard/tags/page.tsx
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { supabase } from "@/src/supabase/client";
 import { Tag, SnippetWithTags } from "@/src/types/database";

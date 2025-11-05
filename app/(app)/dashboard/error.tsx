@@ -31,7 +31,7 @@ export default function DashboardError({
                     </h2>
 
                     <p className="text-gray-600 dark:text-gray-400 mb-6">
-                        We encountered an error while loading this page. Don't
+                        We encountered an error while loading this page. Don&apos;t
                         worry, your data is safe.
                     </p>
 

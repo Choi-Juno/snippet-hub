@@ -1,6 +1,8 @@
 // app/(app)/dashboard/favorites/page.tsx
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { supabase } from "@/src/supabase/client";
 import { useAuthStore } from "@/src/stores/authStore";
@@ -9,6 +11,7 @@ import { SnippetCard } from "@/src/components/snippet/SnippetCard";
 import { Search, Star } from "lucide-react";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
+import Link from "next/link";
 import {
     Select,
     SelectContent,
@@ -237,9 +240,9 @@ export default function FavoritesPage() {
                             : "Click the star icon on snippets to add them to favorites"}
                     </p>
                     {!searchQuery && languageFilter === "all" && (
-                        <Button asChild>
-                            <a href="/dashboard">Browse All Snippets</a>
-                        </Button>
+                        <Link href="/dashboard">
+                            <Button>Browse All Snippets</Button>
+                        </Link>
                     )}
                 </div>
             ) : (

@@ -1,6 +1,8 @@
 // app/(app)/dashboard/page.tsx
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/src/supabase/client";
 import { useAuthStore } from "@/src/stores/authStore";

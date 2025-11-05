@@ -129,7 +129,7 @@ export default function TestDbPage() {
             <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                 <h2 className="font-semibold mb-2">Instructions:</h2>
                 <ol className="list-decimal list-inside space-y-2 text-sm">
-                    <li>Click "Run Database Test" button</li>
+                    <li>Click &quot;Run Database Test&quot; button</li>
                     <li>Check the result above</li>
                     <li>Open browser console (F12) for detailed logs</li>
                     <li>Copy all console output and share if there are errors</li>

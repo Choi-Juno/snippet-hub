@@ -24,10 +24,8 @@ import {
     Download,
     Trash2,
     LogOut,
-    Code2,
     FileJson,
 } from "lucide-react";
-import { SnippetWithTags } from "@/src/types/database";
 
 export default function SettingsPage() {
     const user = useAuthStore((state) => state.user);
@@ -69,10 +67,18 @@ export default function SettingsPage() {
                         )
                         .eq("snippet_id", snippet.id);
 
+                    interface TagItem {
+                        tags: {
+                            id: string;
+                            name: string;
+                            created_at: string;
+                        }[];
+                    }
+                    
                     const tags =
                         tagData
-                            ?.map((item: any) => item.tags)
-                            .filter((tag): tag is any => tag !== null) || [];
+                            ?.flatMap((item: TagItem) => item.tags)
+                            .filter((tag) => tag !== null) || [];
 
                     return {
                         ...snippet,
